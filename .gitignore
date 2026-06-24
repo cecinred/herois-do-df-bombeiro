@@ -1,0 +1,19 @@
+# Executáveis e objetos
+*.exe
+*.o
+*.obj
+*.out
+herois
+herois.exe
+/build/
+/bin/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configs de editor/IDE
+.vscode/
+.idea/
+*.layout
+*.depend
