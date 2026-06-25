@@ -21,7 +21,7 @@ A importância da sirene, do **corredor de emergência** e do trânsito seguro
   (tempo de invulnerabilidade após uma batida).
 - `UpdF4(...)` — move os carros; com a **sirene** ligada eles se afastam para
   as laterais (corredor de emergência). Em colisão, perde uma vida; se zerar,
-  vai para **GAME OVER** (esta é a única fase que pode falhar).
+  vai para **GAME OVER**.
 - `DrawF4(...)` — pista com faixas animadas, prédios, carros e a barra de
   progresso com os marcos do percurso.
 - **Vitória:** quando `f4_prog >= 100`.
