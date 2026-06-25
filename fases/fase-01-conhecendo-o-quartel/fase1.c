@@ -5,13 +5,14 @@
    jogo para fins de estudo e explicação. Ele NÃO compila
    sozinho: depende da Raylib e de partes compartilhadas que
    ficam no jogo completo (ex.: DBold, DrawHUD, QuizDraw,
-   HoseControls, struct Foco/Quiz, sistema de partículas...).
+   HoseControls, DrawIcon, os cenários de Brasília, structs
+   Foco/Quiz, sistema de partículas...).
 
    O código completo e compilável está em:  jogo-completo/
    ============================================================ */
 
 /* =====================================================================
-   FASE 1 - CONHECENDO O QUARTEL (vestir o EPI)
+   FASE 1 - CONHECENDO O QUARTEL
    ===================================================================== */
 typedef struct { const char*nome; int bit; Rectangle btn; bool usado; } ItemEPI;
 static ItemEPI epi[5];
@@ -28,38 +29,25 @@ static void InitF1(void){
 static void UpdF1(Vector2 m){
     if(f1_flash>0) f1_flash-=GetFrameTime();
     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        for(int i=0;i<5;i++){
-            if(epi[i].usado) continue;
-            if(CheckCollisionPointRec(m,epi[i].btn)){
-                epi[i].usado=true; f1_equip|=epi[i].bit; f1_vestidos++; f1_flash=0.5f;
-            }
+        for(int i=0;i<5;i++){ if(epi[i].usado) continue;
+            if(CheckCollisionPointRec(m,epi[i].btn)){ epi[i].usado=true; f1_equip|=epi[i].bit; f1_vestidos++; f1_flash=0.5f; }
         }
 }
 static void DrawF1(int estrelas,int chances,float timer){
-    ClearBackground((Color){40,46,60,255});
-    for(int c=0;c<6;c++){
-        DrawRectangle(c*100,60,96,140,(Color){55,62,80,255});
-        DrawRectangleLines(c*100,60,96,140,(Color){30,35,50,255});
-    }
-    DrawRectangle(40,120,150,330,(Color){90,30,20,255});
-    DrawRectangleLines(40,120,150,330,(Color){40,15,10,255});
-    DBold("CBMDF",70,135,26,(Color){255,210,40,255});
-    int cx=380, cy=240;
-    DrawRectangle(cx-30,cy+120,90,12,(Color){30,35,50,255});
+    DrawQuartelBG();
+    int cx=270, cy=395;
+    DrawEllipse(cx+15,cy+126,46,10,(Color){0,0,0,70}); DrawRectangle(cx-16,cy+118,62,12,(Color){60,65,80,255});
     DrawClara(cx,cy,true,(int)(GetTime()*6),f1_equip);
+    DrawRectangle(20,540,560,38,(Color){0,40,90,220}); DrawRectangleLines(20,540,560,38,(Color){255,200,0,150});
+    DBold("Clique para vestir todo o equipamento de proteção (EPI)!", W/2-MeasureText("Clique para vestir todo o equipamento de proteção (EPI)!",16)/2,550,16,(Color){255,230,120,255});
     for(int i=0;i<5;i++){
-        Color bc=epi[i].usado?(Color){40,90,40,255}:(Color){0,60,140,255};
-        DrawRectangleRounded(epi[i].btn,0.25f,6,bc);
-        DrawRectangleRoundedLines(epi[i].btn,0.25f,6,(Color){255,200,0,255});
-        const char*tx=epi[i].usado?"VESTIDO":epi[i].nome;
-        DBold(tx,(int)(epi[i].btn.x+epi[i].btn.width/2-MeasureText(tx,18)/2),(int)(epi[i].btn.y+18),18,WHITE);
+        Rectangle b=epi[i].btn; Color bg=epi[i].usado?(Color){36,92,46,255}:(Color){0,60,140,255};
+        DrawRectangleRounded(b,0.25f,6,bg); DrawRectangleRoundedLines(b,0.25f,6,epi[i].usado?(Color){120,240,130,255}:(Color){255,200,0,255});
+        DrawEPIicon(epi[i].bit,(int)(b.x+26),(int)(b.y+28));
+        DBold(epi[i].usado?"VESTIDO":epi[i].nome,(int)(b.x+50),(int)(b.y+18),18,WHITE);
     }
-    if(f1_flash>0){
-        const char*ok="+ Equipamento vestido!";
-        DBold(ok,W/2-MeasureText(ok,18)/2,560,18,(Color){120,255,120,255});
-    }
-    DrawHUD(1,estrelas,chances,timer,"Clique para vestir o equipamento");
-    char p[32]; sprintf(p,"Vestido: %d/5",f1_vestidos);
-    DBold(p,W/2-MeasureText(p,16)/2,575,16,(Color){255,220,120,255});
+    if(f1_flash>0) DBold("+ Equipamento vestido!",W/2-MeasureText("+ Equipamento vestido!",18)/2,584,18,(Color){120,255,120,255});
+    DrawHUD(1,estrelas,chances,timer,NULL);
+    char p[32]; sprintf(p,"Vestido: %d/5",f1_vestidos); DBold(p,W/2-MeasureText(p,16)/2,512,16,(Color){255,220,120,255});
 }
 
