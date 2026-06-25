@@ -23,7 +23,7 @@ o material certo.
   (mangueira, extintor, machado, escada, etc.), em vez de só texto.
 - `f3_carregados` / `f3_total_certos` — contadores.
 - `UpdF3(mouse)` — ao clicar: se o item é certo, carrega e conta; se for errado,
-  mostra um aviso (não soma).
+  mostra um aviso e perde uma vida; se zerar, vai para **GAME OVER**.
 - `DrawF3(...)` — desenha o caminhão, o Bombeiro Silva e os botões com ícones.
 - **Vitória:** quando `f3_carregados >= f3_total_certos`.
 
